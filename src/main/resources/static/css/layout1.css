@@ -2,12 +2,9 @@ html {
     position: relative;
     min-height: 100%
     margin: 0;
-
-
 }
 body{
     min-height: 100%
-
 }
 
 .footer{
@@ -25,5 +22,4 @@ body{
     margin-top: 50px;
     margin-left: 200px;
     margin-right: 200px;
-
 }
