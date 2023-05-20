@@ -23,20 +23,24 @@ public class Member {
 
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true)  //email은 중복불가능
     private String email;
 
     private String password;
 
     private String address;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)  //String으로 enum타입을 저장
     private Role role;
 
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
+        member.setAddress(memberFormDto.getAddress());
+        String password = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(password);
+        member.setRole(Role.ADMIN);
 
         return member;
     }
