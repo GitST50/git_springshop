@@ -32,11 +32,11 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/") //로그아웃 성공시 이동할 url
                 ;
 
-        http.authorizeRequests()
-                .mvcMatchers("/css/**","/js/**","img/**").permitAll()
+        http.authorizeRequests()  //HttpServletRequest를 시큐리티 처리에 이용
+                .mvcMatchers("/css/**","/js/**","img/**").permitAll() //permitAll로 모든 사용자가 로그인없이 접근할수있게 함(메인페이지등)
                 .mvcMatchers("/","/members/**","item/**","/images/**").permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .mvcMatchers("/admin/**").hasRole("ADMIN") //계정이 ADMIN일 경우만 접근 가능
+                .anyRequest().authenticated() //의외의 나머지 경로들은 모두 인증 요구
                 ;
 
 
