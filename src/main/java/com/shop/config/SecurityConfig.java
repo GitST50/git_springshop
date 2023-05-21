@@ -22,14 +22,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin()
-                .loginPage("/members/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("email")
-                .failureUrl("/members/login/error")
+                .loginPage("/members/login") //로그인 페이지 url 설정
+                .defaultSuccessUrl("/")  // 로그인 성공시 이동할 url설정
+                .usernameParameter("email")  //로그인시 사용할 파라미터 이름으로 email 지정
+                .failureUrl("/members/login/error")  //로그인 실패시 이동할 url
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
-                .logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) //로그아웃 url
+                .logoutSuccessUrl("/") //로그아웃 성공시 이동할 url
                 ;
 
         http.authorizeRequests()
