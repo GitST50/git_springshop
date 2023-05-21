@@ -38,7 +38,7 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @PostMapping(value = "/new")  // @Valid:객체안으로 들어오는 값에 대해 검증어노테이션 사용가능
+    /*@PostMapping(value = "/new")  // @Valid:객체안으로 들어오는 값에 대해 검증어노테이션 사용가능
     public String newMember(@Valid MemberFormDto memberFormDto,
                             BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){ //검사후 결과는 bindingResult 파라미터에 담아줌
@@ -54,6 +54,6 @@ public class MemberController {
         }
 
         return "redirect:/";
-    }
+    }*/
 
 }
