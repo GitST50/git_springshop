@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -25,7 +27,10 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus; //주문상태
+
+    @OneToMany(mappedBy = "order") //연관관계의 주인의 필드인 order 를 설정 (OrderItem 에 존재)
+    private List<OrderItem> orderItems = new ArrayList<>(); //하나의 주문이 여러개의 주문상품을 가짐(OrderItem 쪽이 다 이기때문에 list 로 매핑)
 
     private LocalDateTime regTime;
 
