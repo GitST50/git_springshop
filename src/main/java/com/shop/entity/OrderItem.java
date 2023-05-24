@@ -20,7 +20,7 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;  //order_item_id 에 item_id를 다대일 매핑  (하나의 상품은 여러개의 주문상품에 들어갈수있음)
 
-    @ManyToOne
+    @ManyToOne  //@ManyToOne쪽이 항상 연관관계의 주인이됨 (mappedBy 속성이 없음)
     @JoinColumn(name= "order_id")
     private Order order; //order_item_id 에 order_id를 다대일 매핑 (한번의 주문에 여러개의 상품을 주문할수있음)
 
