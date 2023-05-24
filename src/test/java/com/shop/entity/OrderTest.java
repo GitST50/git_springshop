@@ -11,8 +11,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -43,7 +46,7 @@ public class OrderTest {
 
     @Test
     @DisplayName("영속성 전이 테스트")
-    public void cascadeTest(){
+    public void cascadeTest(){  //order가 호출되며 orderItem 이 3번 insert 되어야 함
 
         Order order = new Order();
 
@@ -57,6 +60,13 @@ public class OrderTest {
             orderItem.setOrder(order);
             order.getOrderItems().add(orderItem);  //영속성 x 상태인 orderItem 엔티티를 order 엔티티에 담아줌
         }
-    }
+
+        orderRepository.saveAndFlush(order); //order 엔티티 저장 , 강제 flush 호출및 영속성컨텍스트 내부객체 DB에 반영
+        em.clear(); //영속성컨텍스트 상태 초기화
+
+        Order savedOrder = orderRepository.findById(order.getId()) //영속성 데이터 초기화했으므로 DB 에서 주문엔티티를 조회
+                .orElseThrow(EntityNotFoundException::new);
+        assertEquals(3, savedOrder.getOrderItems().size()); //3과 savedOrder 로 가져온 getOrderItems.size()의 값이 같다면 테스트 성공
+    }                                                               // == 실제 조회되는 orderItem 이 3개라면 테스트 정상적으로 통과
 
 }
