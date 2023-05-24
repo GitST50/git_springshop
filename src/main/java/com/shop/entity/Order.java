@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne  //Order(Many)ToOne(member_id)  한명의 멤버는 여러개의 주문을 할수있음
     @JoinColumn(name = "member_id")
     private Member member;
 
