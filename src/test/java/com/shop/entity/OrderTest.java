@@ -110,7 +110,7 @@ public class OrderTest {
     }
 
     @Test
-    @DisplayName("지연 로딩 테스트")  //현재는 OrderItem클래스에서 즉시로딩방식으로 설정되어있음:쿼리문을 전부 불러옴
+    @DisplayName("지연 로딩 테스트")
     public void lazyLoadingTest(){
         Order order = this.createOrder();
         Long orderItemId = order.getOrderItems().get(0).getId();
@@ -118,7 +118,10 @@ public class OrderTest {
         em.clear();
         OrderItem orderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(EntityNotFoundException::new);
-        System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("Order class : " + orderItem.getOrder().getClass());  //실제 엔티티대신 프록시 객체 넣어둠(프록시: 실제 사용될때 조회)
+        System.out.println("==================");
+        orderItem.getOrder().getOrderDate(); //select 쿼리문이 실행
+        System.out.println("==================");
     }
 
 
