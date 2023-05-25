@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
-public class Order {
+public class Order extends BaseEntity{
 
     @Id
     @GeneratedValue
@@ -34,8 +34,5 @@ public class Order {
                                                             //주문할 때 주문엔티티를 저장하며 주문상품 엔티티도 함께 저장
                                                             //orphanRemoval=true: 고아객체(엔티티 연관관계 끊어진객체) 제거를 위한 속성
                                                             //FetchType.LAZY: 지연로딩(실제 조회시에 쿼리문 작동)
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
 
 }
