@@ -1,6 +1,9 @@
 package com.shop.service;
 
+import com.shop.constant.ItemSellStatus;
 import com.shop.dto.ItemFormDto;
+import com.shop.entity.Item;
+import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +17,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -39,8 +45,8 @@ class ItemServiceTest {
         {
             String path = "C:/shop/item";
             String imageName = "image" + i + ".jpg";
-            MockMultipartFile multipartFile = new MockMultipartFile(path, imageName, "image/jpg", new byte[]{1,2,3,4,5});
-            multipartFileList.add(multipartFile);
+            MockMultipartFile multipartFile = new MockMultipartFile(path, imageName, "image/jpg", new byte[]{1,2,3,4,5}); //가짜 MultiFile 생성
+            multipartFileList.add(multipartFile); //리스트형으로 집어넣음(반복문으로 총 5개 작성)
         }
 
         return multipartFileList;
@@ -50,8 +56,24 @@ class ItemServiceTest {
     @DisplayName("상품 등록 테스트")
     @WithMockUser(username = "admin", roles = "ADMIN")
     void saveItem() throws Exception{
-        ItemFormDto itemFormDto = new ItemFormDto();
+        ItemFormDto itemFormDto = new ItemFormDto();  //입력받는 상품 데이터 임의로 세팅
         itemFormDto.setItemNm("테스트 상품");
+        itemFormDto.setItemSellStatus(ItemSellStatus.SELL);
+        itemFormDto.setItemDetail("테스트 상품입니다");
+        itemFormDto.setPrice(1000);
+        itemFormDto.setStockNumber(100);
+
+        List<MultipartFile> multipartFileList = createMultiPartFiles();
+        Long itemId = itemService.saveItem(itemFormDto, multipartFileList); //상품 데이터와 이미지 정보를 파라미터로 넘겨서 저장후 저장된상품의 아이디를 리턴
+        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+
+        assertEquals(itemFormDto.getItemNm(), item.getItemNm()); //입력한 ItemNm 와 실제로 저장된 ItemNm이 같은지를 확인
+        assertEquals(itemFormDto.getItemSellStatus(), item.getItemSellStatus()); //''
+        assertEquals(itemFormDto.getItemDetail(), item.getItemDetail()); //''
+        assertEquals(itemFormDto.getPrice(), item.getPrice()); //''
+        assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());  //''
+        assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName()); //0번째 요소의 원본이미지파일 이름이 같은지 확인
     }
 
 
