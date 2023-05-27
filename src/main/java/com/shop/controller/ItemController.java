@@ -63,6 +63,10 @@ public class ItemController {
             model.addAttribute("itemFormDto", itemFormDto);
         } catch (EntityNotFoundException e){
             model.addAttribute("error Message", "존재하지 않는 상품입니다.");
+            model.addAttribute("itemFormDto", new ItemFormDto());
+            return "item/itemForm";
         }
+
+        return "item/itemForm";
     }
 }
