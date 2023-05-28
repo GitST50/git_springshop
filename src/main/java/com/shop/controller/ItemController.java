@@ -2,8 +2,10 @@ package com.shop.controller;
 
 import com.shop.dto.ItemFormDto;
 import com.shop.dto.ItemSearchDto;
+import com.shop.entity.Item;
 import com.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -102,8 +104,13 @@ public class ItemController {
 
     @GetMapping(value = {"/admin/items", "/admin/items/{page}"}) //상품관리화면에서 url에 페이지번호가 없는경우/있는경우 두가지 매핑
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page")Optional<Integer> page, Model model){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3) //페이징을 위해 PageRequest.of메소드로 Pageable객체 생성
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3); //페이징을 위해 PageRequest.of메소드로 Pageable객체 생성
                                                                                       //param1:조회할 페이지번호 param2:한번에 가지고 올 데이터 수
                                                                                       //url에 페이지번호가 없으면 0페이지 조회
+        Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable); //조회조건과 페이징정보를 넘겨 Page<Item>을 반환
+        model.addAttribute("items", items);  //조회한 상품데이터와 페이징정보를 뷰에전달
+        model.addAttribute("itemSearchDto", itemSearchDto);  //페이지 전환시 기존 검색조건을 유지하고 이동하도록 뷰에 전달
+        model.addAttribute("maxPage", 5); //상품관리 메뉴 하단에 보여줄 페이지의 최대 개수
+        return "item/itemMng";
     }
 }
