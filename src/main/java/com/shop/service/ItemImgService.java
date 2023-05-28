@@ -51,9 +51,9 @@ public class ItemImgService {
             }
 
             String oriImgName = itemImgFile.getOriginalFilename();
-            String imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes());
+            String imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes()); //업데이트할 상품 이미지파일 업로드
             String imgUrl = "/images/item/" + imgName;
-            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
+            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl); //변경된 상품 이미지 정보 셋팅, savedItemImg가 영속상태이므로 데이터변경시 변경감지기능작동 -> update 쿼리 실행
         }
     }
 

@@ -69,4 +69,7 @@ public class ItemController {
 
         return "item/itemForm";
     }
+
+    @PostMapping(value = "/admin/item/{itemId}")
+    public String itemUpdate(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, @RequestParam("itemImgFile"+))
 }
