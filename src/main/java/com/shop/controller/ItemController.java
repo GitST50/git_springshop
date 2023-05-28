@@ -1,8 +1,11 @@
 package com.shop.controller;
 
 import com.shop.dto.ItemFormDto;
+import com.shop.dto.ItemSearchDto;
 import com.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -93,5 +98,12 @@ public class ItemController {
             return "item/itemForm";
         }
         return "redirect:/";
+    }
+
+    @GetMapping(value = {"/admin/items", "/admin/items/{page}"}) //상품관리화면에서 url에 페이지번호가 없는경우/있는경우 두가지 매핑
+    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page")Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3) //페이징을 위해 PageRequest.of메소드로 Pageable객체 생성
+                                                                                      //param1:조회할 페이지번호 param2:한번에 가지고 올 데이터 수
+                                                                                      //url에 페이지번호가 없으면 0페이지 조회
     }
 }
