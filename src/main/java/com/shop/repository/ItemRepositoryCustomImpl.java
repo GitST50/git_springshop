@@ -111,8 +111,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                                 item.itemNm,
                                 item.itemDetail,
                                 itemImg.imgUrl,
-                                item.price
-                        )
+                                item.price)
                 )
                 .from(itemImg)
                 .join(itemImg.item, item)                         //iteming과 item을 내부조인
