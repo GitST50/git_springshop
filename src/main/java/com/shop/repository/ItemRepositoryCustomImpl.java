@@ -104,9 +104,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
-        QueryResults<MainItemDto> results = queryFactory
+        List<MainItemDto> content = queryFactory
                 .select(
-                        new QMainItemDto(
+                        new QMainItemDto(       //QMainItemDto의 생성자에 반환할 값들 담아주기, @QueryProjection을 사용하여 DTO로 바로 조회.
                                 item.id,
                                 item.itemNm,
                                 item.itemDetail,
@@ -115,13 +115,24 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         )
                 )
                 .from(itemImg)
-                .join(itemImg.item, item)
-                .where(itemImg.repimgYn.eq("Y"))
+                .join(itemImg.item, item)                         //iteming과 item을 내부조인
+                .where(itemImg.repimgYn.eq("Y"))                       //상품이미지는 대표상품이미지만 불러옴
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetchResults();
+                .fetch();
+
+        long total = queryFactory
+                .select(Wildcard.count)
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repimgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .fetchOne()
+                ;
+
+        return new PageImpl<>(content, pageable, total);
 
     }
 
