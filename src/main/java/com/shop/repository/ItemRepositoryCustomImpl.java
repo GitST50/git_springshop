@@ -1,6 +1,5 @@
 package com.shop.repository;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,7 +10,6 @@ import com.shop.dto.QMainItemDto;
 import com.shop.entity.Item;
 import com.shop.entity.QItem;
 import com.shop.entity.QItemImg;
-import net.bytebuddy.asm.Advice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

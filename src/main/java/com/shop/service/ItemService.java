@@ -8,7 +8,6 @@ import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
-import com.shop.repository.ItemRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

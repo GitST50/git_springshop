@@ -52,4 +52,19 @@
     </style>
 </th:block>
 
+<div layout:fragment="content" style="margin-left":25%;style="margin-right":25%>
+
+    <input type = "hidden" id="itemId" th:value="${item.id}">
+
+    <div class="d-flex">
+        <div class="repImgDiv">
+            <img th:src="${item.itemImgDtoList[0].imgUrl}" class="rounded repImg" th:alt="${item.itemNm}">
+        </div>
+        <div class="wd50">
+<!--            <span th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">판매중</span>-->
+        </div>
+    </div>
+
+</div>
+
 </html>
