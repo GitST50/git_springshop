@@ -15,6 +15,8 @@ public class ItemImgDto {
 
     private String oriImgName;
 
+    private String imgUrl;
+
     private String repImgYn;
 
     private static ModelMapper modelMapper = new ModelMapper(); //ModelMapper객체를 멤버변수로 추가
