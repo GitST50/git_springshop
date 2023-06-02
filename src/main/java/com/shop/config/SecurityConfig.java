@@ -38,6 +38,9 @@ public class SecurityConfig {
                 .mvcMatchers("/admin/**").hasRole("ADMIN") //계정이 ADMIN일 경우만 접근 가능
                 .anyRequest().authenticated() //의외의 나머지 경로들은 모두 인증 요구
                 ;
+        http.exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                ;
 
 
         return http.build();
