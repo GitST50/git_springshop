@@ -35,4 +35,29 @@ public class Order extends BaseEntity{
                                                             //orphanRemoval=true: 고아객체(엔티티 연관관계 끊어진객체) 제거를 위한 속성
                                                             //FetchType.LAZY: 지연로딩(실제 조회시에 쿼리문 작동)
 
+    public void addOrderItem(OrderItem orderItem){ //주문상품 정보담기
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);  //Order와 OrderItem은 양방향 참조, orderItem에도 order 세팅 필요
+    }
+
+    public static Order createOrder(Member member, List<OrderItem> orderItemList){
+        Order order = new Order();
+        order.setMember(member);  //상품주문한 회원 정보 set
+        for(OrderItem orderItem : orderItemList){   //상품 페이지 = 1개주문 , 장바구니 = 여러개주문, 주문상품 여러개받을수있도록 리스트형태로 파라미터값을받아 주문객체에 orderItem 객체를 추가
+            order.addOrderItem(orderItem);
+        }
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    public int getTotalPrice(){
+        int totalPrice = 0;
+        for(OrderItem orderItem : orderItems){
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
+
 }
