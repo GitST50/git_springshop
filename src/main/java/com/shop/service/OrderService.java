@@ -5,6 +5,7 @@ import com.shop.entity.Item;
 import com.shop.entity.Member;
 import com.shop.entity.Order;
 import com.shop.entity.OrderItem;
+import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.OrderRepository;
@@ -25,6 +26,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
+    private final ItemImgRepository itemImgRepository;
 
     public Long order(OrderDto orderDto, String email){
         Item item = itemRepository.findById(orderDto.getItemId())  //주문할 상품 조회
